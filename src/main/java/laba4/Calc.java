@@ -49,6 +49,9 @@ throw new Exception("Радиус должен быть больше 0");
 catch (NumberFormatException e) {
 radius_try=0;
 }
+catch (Exception e) {
+radius_try=0;
+}
 
 result= Math.PI*(radius_try*radius_try); // формула расчета
 request.setAttribute("result", result);
