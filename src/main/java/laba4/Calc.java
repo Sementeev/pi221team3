@@ -11,49 +11,50 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name="Calc", urlPatterns="/JavaCalc") //связывание сервлета с URL
 public class Calc extends HttpServlet {
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		RequestCalc Calc = RequestCalc.fromRequestParameters(request);
-		Calc.setAsRequestAttributesAndCalculate(request);
-		 
-		request.getRequestDispatcher("/Results.jsp").forward(request, response);
-		
-	}
-	
-	private static class RequestCalc {
-		private final String first_calc;
-		private final String second_calc;
-		private int result;
-						
-		private RequestCalc (String first, String second) {
-			this.first_calc = first;
-			this.second_calc = second;
-			}
-		
-		public static RequestCalc fromRequestParameters(HttpServletRequest request) {
-			return new RequestCalc(
-			request.getParameter("first"),
-			request.getParameter("second"));
-			}
-				
-		public void setAsRequestAttributesAndCalculate(HttpServletRequest request) {
-			request.setAttribute("first_result", first_calc);
-			request.setAttribute("second_result", second_calc);
-			int first_try;
-			int second_try;
-			try { 
-			first_try=Integer.parseInt(first_calc);
-			second_try=Integer.parseInt(second_calc);
-			}
-			catch (NumberFormatException e) {
-				first_try=0;
-				second_try=0;	
-			}
-			
-			result=first_try+second_try;
-			request.setAttribute("result", result);
-		}
-		
-	}
-	
-	
+protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+RequestCalc Calc = RequestCalc.fromRequestParameters(request);
+try {
+Calc.setAsRequestAttributesAndCalculate(request);
+} catch (Exception e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}
+
+request.getRequestDispatcher("/Results.jsp").forward(request, response);
+
+}
+
+private static class RequestCalc {
+private final String radius_calc;
+private double result;
+
+private RequestCalc (String radius) {
+this.radius_calc = radius;
+}
+
+public static RequestCalc fromRequestParameters(HttpServletRequest request) {
+return new RequestCalc(
+request.getParameter("radius"));
+}
+
+public void setAsRequestAttributesAndCalculate(HttpServletRequest request) throws Exception {
+request.setAttribute("main_result", radius_calc);
+double radius_try;
+try {
+radius_try=Double.parseDouble(radius_calc);
+if(radius_try<=0) {
+throw new Exception("Радиус должен быть больше 0");
+}
+}
+catch (NumberFormatException e) {
+radius_try=0;
+}
+
+result= Math.PI*(radius_try*radius_try); // формула расчета
+request.setAttribute("result", result);
+}
+
+}
+
+
 }
