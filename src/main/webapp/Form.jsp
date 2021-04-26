@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
 <br><br><br><br>
 <hr size=40px color=gray width=1880px align="left">
 <form action="${pageContext.request.contextPath}/JavaCalc" method="post">
-<label for="radius">Радиус:</label>
+<label for="radius">Радиус (миллиметры):</label>
 <input type="text" name="radius" id="radius" value="${radius}">
 <input type="submit" name="sign" value="Calculate">
 </form>
